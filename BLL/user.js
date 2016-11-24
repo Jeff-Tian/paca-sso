@@ -1,6 +1,6 @@
 module.exports = {
     status: {
-        pending: 'P',
-        paid: 'D'
+        active: 0,
+        disabled: 1
     }
 };

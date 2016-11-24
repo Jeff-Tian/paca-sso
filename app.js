@@ -23,7 +23,7 @@ app.use(route.get('/healthcheck', function *(next) {
 }));
 
 app.use(route.get('/env', function *(next) {
-    this.body = JSON.stringify({});
+    this.body = config;
 }));
 
 

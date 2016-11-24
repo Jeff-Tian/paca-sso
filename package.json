@@ -2,7 +2,7 @@
   "scripts": {
     "start": "node --harmony app.js staging",
     "local": "node --harmony app.js",
-    "test": "mocha --harmony"
+    "test": "sudo mongod & mocha --harmony"
   },
   "dependencies": {
     "co-body": "^4.2.0",
