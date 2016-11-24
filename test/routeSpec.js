@@ -38,7 +38,7 @@ describe('sso', function () {
         beforeEach(function () {
         });
 
-        afterEach(function () {
+        after(function () {
             childProcess.execSync('mongo paca-sso-test --eval "db.dropDatabase()"', function (err, stdout, stderr) {
                 if (err) {
                     console.log(err);
@@ -58,6 +58,42 @@ describe('sso', function () {
                 .send(data)
                 .expect(200)
                 .expect(/{"login":"login test","password":"secret","status":0,/)
+                .end();
+        });
+
+        it('should validate the user', function *() {
+            let data = {
+                login: 'login test',
+                password: 'secret'
+            };
+
+            yield request(server)
+                .post('/api/users/validate')
+                .send(data)
+                .expect(200)
+                .expect(/"login":"login test"/)
+                .end();
+
+            data.login = 'not exist';
+            yield request(server)
+                .post('/api/users/validate')
+                .send(data)
+                .expect(401)
+                .expect(/access_denied/)
+                .end();
+        });
+
+        it('should login the user', function *() {
+            let data = {
+                login: 'login test',
+                password: 'secret'
+            };
+
+            yield request(server)
+                .post('/api/users/sign-in')
+                .send(data)
+                .expect(200)
+                .expect(/token/)
                 .end();
         });
     });

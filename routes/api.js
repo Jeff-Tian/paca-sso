@@ -20,4 +20,16 @@ module.exports = function (app, route) {
 
         this.body = yield users.insert(user);
     }));
+    app.use(route.post('/api/users/validate', function *(next) {
+        let user = yield parse(this);
+        let result = yield users.findOne({login: user.login, password: user.password});
+        if (!result) {
+            this.throw(401, 'access_denied', {user: user});
+        } else {
+            this.body = JSON.stringify(result);
+        }
+    }));
+    app.use(route.post('/api/users/sign-in', function *(next) {
+        this.body = {token: 'test'}
+    }));
 };
