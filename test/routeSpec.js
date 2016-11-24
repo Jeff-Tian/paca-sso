@@ -17,7 +17,7 @@ describe('sso', function () {
             .get('/healthcheck')
             .send({})
             .expect(200)
-            .expect(/OK/)
+            .expect(/is ok/)
             .end();
     });
 
